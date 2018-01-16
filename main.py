@@ -21,6 +21,11 @@ class Blog(db.Model):
 
 @app.route('/blog')
 def index():
+    if request.args.get('id'):
+        blog_id = int(request.args.get('id'))
+        blog = Blog.query.get(blog_id)
+        return render_template('singlepost.html', blog=blog)
+    
     bloglist = Blog.query.all()
     return render_template('mainpage.html',title="Get It Done!",bloglist=bloglist)
 
@@ -29,13 +34,14 @@ def newpost():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
+        has_error = False
         if not title:
             flash("Please fill in the title",'error')
-            return render_template('newpost.html')
+            has_error = True
         if not body:
             flash("Please fill in the body",'error')
-            return render_template('newpost.html')
-        else:
+            has_error = True
+        if not has_error:
             blog = Blog(title, body)
             db.session.add(blog)
             db.session.commit()
