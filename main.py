@@ -18,7 +18,6 @@ class Blog(db.Model):
         self.title = title
         self.body = body
 
-
 @app.route('/blog')
 def index():
     blog_id = request.args.get('id')
@@ -26,7 +25,6 @@ def index():
         blog_id = int(blog_id)
         blog = Blog.query.get(blog_id)
         return render_template('singlepost.html', blog=blog)
-    
     bloglist = Blog.query.all()
     return render_template('mainpage.html', title="Build-a-Blog", bloglist=bloglist)
 
