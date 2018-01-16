@@ -1,20 +1,20 @@
 {% extends "base.html" %}
-
+{% block title %}<h1>Add a Blog Entry</h1>{% endblock %}
 {% block content %}
-<h1>Add a Blog Entry</h1>
+
 
 
 
 <form action="/newpost" method='post'>
     <label>
         Title for your new blog:
-        <div><input type="text" name='title' style="display:inline-block;"/></div>
+        <div><input type="text" name='title' value="{{title}}" style="display:inline-block;"/></div>
     </label>
 
     <div>
         <label>
             Your new blog:
-            <div><textarea name="body" style="display:inline-block;"></textarea></div>
+            <div><textarea name="body" style="display:inline-block;">{{body}}</textarea></div>
         </label>
         <div><input type="submit" value='Add Blog'/></div>
     </div>
