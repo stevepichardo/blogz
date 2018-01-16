@@ -28,7 +28,7 @@ def index():
         return render_template('singlepost.html', blog=blog)
     
     bloglist = Blog.query.all()
-    return render_template('mainpage.html',title="Get It Done!",bloglist=bloglist)
+    return render_template('mainpage.html', title="Get It Done!", bloglist=bloglist)
 
 @app.route('/newpost', methods=['POST','GET'])
 def newpost():
