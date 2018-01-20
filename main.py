@@ -30,9 +30,14 @@ class User(db.Model):
         self.username = username 
         self.password = password 
 
+@app.before_request
+def require_login():
+    allowed_routes = ['login','index','signup','list_blogs']
+    if request.endpoint not in allowed_routes and 'username' not in session:
+        return redirect('/login')
 
 @app.route('/blog')
-def index():
+def list_blogs():
     blog_id = request.args.get('id')
     if blog_id:
         blog_id = int(blog_id)
@@ -80,6 +85,11 @@ def login():
             flash('Username does not exist')
             return redirect('/login')
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    del session['username']
+    return redirect('/blog')
 
 @app.route('/signup', methods=['POST','GET'])
 def signup():
