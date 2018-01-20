@@ -36,6 +36,11 @@ def require_login():
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
+@app.route('/')
+def index():
+    user_list = User.query.all()
+    return render_template('index.html', user_list=user_list)
+
 @app.route('/blog')
 def list_blogs():
     blog_id = request.args.get('id')
