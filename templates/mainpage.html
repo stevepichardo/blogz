@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 {% block title %}<h1>Build a Blog</h1>{% endblock %}
 {% block content %}
-    <span>
-        <a href="/blog">Main Blog Page</a>
-    </span>
-    <span>
-        <a href="/newpost">Add a Blog Entry</a>
-    </span>
 
     {% if bloglist|length == 0 %}
     <p>No blogs yet</p>

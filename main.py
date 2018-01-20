@@ -15,7 +15,7 @@ class Blog(db.Model):
     body = db.Column(db.String(500))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, title, body):
+    def __init__(self, title, body, owner):
         self.title = title
         self.body = body
         self.owner = owner 
@@ -45,6 +45,7 @@ def index():
 def newpost():
     body = ''
     title = ''
+    owner = User.query.filter_by(username=session['username']).first()
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
@@ -56,11 +57,65 @@ def newpost():
             flash("Please fill in the body",'error')
             has_error = True
         if not has_error:
-            blog = Blog(title, body)
+            blog = Blog(title, body, owner)
             db.session.add(blog)
             db.session.commit()
             return redirect('/blog?id={0}'.format(blog.id))
     return render_template('newpost.html', body=body, title=title)
+
+@app.route('/login', methods=['POST','GET'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.password == password:
+            session['username'] = username
+            flash('Logged in')
+            return redirect('/newpost')
+        elif user and user.password != password:
+            flash('Password is incorrect')
+            return redirect('/login')
+        elif not user:
+            flash('Username does not exist')
+            return redirect('/login')
+    return render_template('login.html')
+
+@app.route('/signup', methods=['POST','GET'])
+def signup():
+    error_dict = {}
+    username = ''
+    email = ''
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        verifypassword = request.form['verify']
+
+        existing_user = User.query.filter_by(username=username).first()
+
+        if existing_user:
+            flash('Username already exists')
+        if not existing_user:
+            if (len(username) < 3 or len(username) > 20) or " " in username:
+                error_dict['username'] = "Not a valid username"
+                flash('Not a Valid Username')
+
+            if len(password) < 3 or len(password) > 20 or " " in password:
+                error_dict['password'] = "Not a valid password"
+                flash('Not a valid password')
+
+            if password != verifypassword:
+                error_dict['verifypassword'] = "Passwords do not match"
+                flash('Passwords do not match')
+
+            if not error_dict:
+                new_user = User(username,password)
+                db.session.add(new_user)
+                db.session.commit()
+                session['username'] = username
+                return redirect('/newpost')
+            return redirect('/signup')
+    return render_template('signup.html')
 
 if __name__ == '__main__':
     app.run()
