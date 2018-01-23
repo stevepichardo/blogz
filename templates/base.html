@@ -2,13 +2,25 @@
 <html>
     <head>
         <title>{{title}}</title>
-        <style>
-            .error{
-                color: red;
-            }
-        </style>
+        <link rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}" type="text/css">
     </head>
 <body>
+<div id="wrapper">
+    <header>
+        <h1>Blogz</h1>
+    </header>
+</div>
+<nav>
+    <ul class="main_menu">
+        <li><a href="/"><span>Home</span></a></li>
+        <li><a href="/blog"><span>All post</span></a></li>
+        <li><a href="/newpost"><span>New Entry</span></a></li>
+        <li><a href="/login"><span>Login</span></a></li>
+        <li><a href="/logout"><span>Logout</span></a></li>
+    </ul>
+</nav>
+
+
     {% block title %}
     
     {% endblock %}
@@ -20,19 +32,6 @@
         {% endfor %}
         </ul>
     {% endwith %}
-
-    <span>
-        <a href="/blog">Main Blog Page</a>
-    </span>
-    <span>
-        <a href="/newpost">Add a Blog Entry</a>
-    </span>
-    <span>
-        <a href='/login'>Login</a>
-    </span>
-    <span>
-        <a href='/logout'>logout</a>
-    </span>
 
     {% block content %}
     {% endblock %}
