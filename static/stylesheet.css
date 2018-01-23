@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f3f3f3;
-
+    background-color: #eee;
+    margin: 0px;
 }
 
 header {
@@ -65,5 +65,33 @@ ul.main_menu {
 form {
     width: 300px;
     margin: 0 auto;
+    padding: 1rem;
+    border-radius: .25rem;
+    border: 2px black solid;
 }
 
+a {
+    text-decoration: none;
+}
+
+.submit {
+    background-color: #59d5d8;
+    font-size: 20px;
+}
+
+.blogs {
+    border: 1px solid #dedede;
+    margin: 10px 50px;
+    background-color: #fff;
+}
+
+hr {
+    height: 1px;
+    border: 0;
+    background: #dedede;
+    width: 50%;
+}
+
+h1, h2, p {
+    text-align: center;
+}

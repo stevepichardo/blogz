@@ -9,7 +9,7 @@
 {% else %}
 
 {% for user in user_list %}
-<h2><a href="/blog?userId={{user.id}}">{{user.username}}</a></h2>
+<h2><a class="user_class" href="/blog?userId={{user.id}}">{{user.username}}</a></h2>
 <hr />
 {% endfor %}
 {% endif %}
