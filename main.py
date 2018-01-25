@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from hashutils import make_pw_hash, check_pw_hash
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -16,11 +17,15 @@ class Blog(db.Model):
     title = db.Column(db.String(120))
     body = db.Column(db.String(500))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    pub_date = db.Column(db.DateTime)
 
-    def __init__(self, title, body, owner):
+    def __init__(self, title, body, owner, pub_date=None):
         self.title = title
         self.body = body
         self.owner = owner 
+        if pub_date is None:
+            pub_date = datetime.utcnow()
+        self.pub_date = pub_date
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
