@@ -94,11 +94,8 @@ def login():
             session['username'] = username
             flash('Logged in')
             return redirect('/newpost')
-        elif user and user.password != password:
-            flash('Password is incorrect')
-            return redirect('/login')
-        elif not user:
-            flash('Username does not exist')
+        else:
+            flash('Login failed')
             return redirect('/login')
     return render_template('login.html')
 
@@ -142,6 +139,12 @@ def signup():
                 return redirect('/newpost')
             return redirect('/signup')
     return render_template('signup.html')
+
+def format_datetime(value):
+    format = "%x %X"
+    return value.strftime(format)
+
+app.jinja_env.filters['dateformat'] = format_datetime
 
 if __name__ == '__main__':
     app.run()
