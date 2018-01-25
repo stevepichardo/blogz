@@ -21,21 +21,20 @@
     </ul>
 </nav>
 
-
     {% block title %}
-    
     {% endblock %}
     
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        <ul>
-        {% for category,message in messages %}
-            <li class="{{category}}">{{message}}</li>
-        {% endfor %}
-        </ul>
-    {% endwith %}
 
     {% block content %}
     {% endblock %}
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    <ul>
+    {% for category,message in messages %}
+        <li id="error" class="{{category}}">{{message}}</li>
+    {% endfor %}
+    </ul>
+{% endwith %}
 
 </body>
 </html>

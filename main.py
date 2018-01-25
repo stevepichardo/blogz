@@ -102,7 +102,7 @@ def logout():
 
 @app.route('/signup', methods=['POST','GET'])
 def signup():
-    error_dict = {}
+    has_error = False
     username = ''
     email = ''
     if request.method == 'POST':
@@ -116,18 +116,18 @@ def signup():
             flash('Username already exists')
         if not existing_user:
             if (len(username) < 3 or len(username) > 20) or " " in username:
-                error_dict['username'] = "Not a valid username"
+                has_error = True
                 flash('Not a Valid Username')
 
             if len(password) < 3 or len(password) > 20 or " " in password:
-                error_dict['password'] = "Not a valid password"
+                has_error = True
                 flash('Not a valid password')
 
             if password != verifypassword:
-                error_dict['verifypassword'] = "Passwords do not match"
+                has_error = True
                 flash('Passwords do not match')
 
-            if not error_dict:
+            if not has_error:
                 new_user = User(username,password)
                 db.session.add(new_user)
                 db.session.commit()

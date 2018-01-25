@@ -95,3 +95,9 @@ hr {
 h1, h2, p {
     text-align: center;
 }
+
+#error {
+    list-style-type: none;
+    text-align: center;
+    color: red;
+}
